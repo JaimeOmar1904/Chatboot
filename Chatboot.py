@@ -67,6 +67,7 @@ def probabilidad_mensaje(mensaje_usuario, palabras_reconocidas, respuesta_unica=
 
     # Calcular la certeza basada en las palabras clave reconocidas
     for palabra in mensaje_usuario:
+        #Vamos validando si las palabras estan entre las palabras reconocidas
         if palabra in palabras_reconocidas:
             certeza_mensaje += 1
 
