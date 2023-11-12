@@ -35,23 +35,25 @@ def verificar_todas_las_respuestas(mensaje):
         nonlocal mayor_probabilidad
         mayor_probabilidad[respuesta_bot] = probabilidad_mensaje(mensaje, lista_de_palabras, respuesta_unica, palabras_requeridas)
 
-    # Definir respuestas predefinidas y palabras clave asociadas
-    #respuesta('Hola', ['hola', 'klk', 'saludos', 'buenas'], respuesta_unica=True)
-    #respuesta('Estoy bien y tú?', ['como', 'estas', 'va', 'vas', 'sientes'], palabras_requeridas=['como'])
-    #respuesta('Estamos ubicados en la calle 23 numero 123', ['ubicados', 'direccion', 'donde', 'ubicacion'], respuesta_unica=True)
-    #respuesta('Siempre a la orden', ['gracias', 'te lo agradezco', 'thanks'], respuesta_unica=True)
 
      # Respuestas relacionadas con servicios escolares
     respuesta('¡Hola! ¿En qué puedo ayudarte?', ['hola', 'klk', 'saludos', 'buenas'], respuesta_unica=True)
     respuesta('Estoy bien, gracias por preguntar. ¿En qué puedo asistirte?', ['como', 'estas', 'va', 'vas', 'sientes'], palabras_requeridas=['como'])
     respuesta('La dirección de Servicios Escolares es en la avenida principal #456.', ['ubicados', 'direccion', 'donde', 'ubicacion'], respuesta_unica=True)
-    respuesta('Siempre estamos disponibles para ayudarte. ¿En qué más puedo asistirte?', ['gracias', 'te lo agradezco', 'thanks'], respuesta_unica=True)
+    respuesta('Siempre estamos disponibles para ayudarte. ¿En qué más puedo asistirte?', ['gracias', 'te lo agradezco',], respuesta_unica=True)
 
     # Respuestas adicionales (puedes agregar más según sea necesario)
     respuesta('¿Cómo puedo ayudarte con tu inscripción?', ['inscripción', 'matrícula', 'registro'], respuesta_unica=True, palabras_requeridas=['ayuda'])
-    respuesta('Para obtener tu horario de clases, visita nuestro portal en línea.', ['horario', 'clases', 'portal'], respuesta_unica=True)
+    respuesta('Para obtener tu horario de clases, visita nuestro portal en línea de la Unam.', ['horario', 'clases', 'portal'], respuesta_unica=True)
     respuesta('Para solicitar un certificado, llena el formulario disponible en el sitio web de la institución.', ['certificado', 'formulario', 'solicitud'], respuesta_unica=True)
     respuesta('Los trámites administrativos se realizan en la oficina de Servicios Escolares. ¿En qué más puedo orientarte?', ['trámites', 'administrativos', 'oficina'], respuesta_unica=True)
+    respuesta('Si experimentas dificultades técnicas durante la inscripción en línea, contacta al soporte técnico proporcionado en la página web o visita la oficina de Servicios Escolares para recibir ayuda.', ['dificultades tecnicas', 'inscripcion en linea', 'soporte tecnico', 'ayuda'], respuesta_unica=True)
+    respuesta('¿Necesitas comprobante de estudios? Puedes generar un certificado de estudios desde tu cuenta en línea o solicitarlo en la oficina de Servicios Escolares.', ['comprobante', 'estudios', 'certificado', 'solicitar'], respuesta_unica=True)
+    respuesta('Para realizar cambios en tu plan de estudios, programa una cita con un asesor académico en Servicios Escolares para discutir las opciones disponibles.', ['cambios', 'plan de estudios', 'cita', 'asesor academico'], respuesta_unica=True)
+    respuesta('¿Necesitas realizar un trámite que no encuentras en la lista estándar? Pregunta en Servicios Escolares sobre procedimientos personalizados para casos especiales.', ['tramite', 'personalizado', 'casos especiales'], respuesta_unica=True)
+    respuesta('Para obtener información sobre eventos académicos y extracurriculares, consulta el tablón de anuncios en la entrada de Servicios Escolares o visita nuestro sitio web.', ['eventos', 'academicos', 'extracurriculares', 'informacion'], respuesta_unica=True)
+    respuesta('Si tienes preguntas sobre las políticas académicas de la institución, el personal de Servicios Escolares estará encantado de proporcionarte la información necesaria.', ['politicas', 'academicas', 'preguntas', 'informacion'], respuesta_unica=True)
+
 
     # Seleccionar la mejor coincidencia basada en la probabilidad
     mejor_coincidencia = max(mayor_probabilidad, key=mayor_probabilidad.get)
@@ -85,22 +87,33 @@ def probabilidad_mensaje(mensaje_usuario, palabras_reconocidas, respuesta_unica=
 
 # Función para respuestas desconocidas
 def desconocido():
-    respuesta = ['¿Puedes decirlo de nuevo?', 'No estoy seguro de lo que quieres', 'Búscalo en Google a ver qué tal'][random.randrange(3)]
+    respuesta = ['¿Puedes decirlo de nuevo?', 'No estoy seguro de lo que quieres', 'Nesecitaras contactarte con uno de nuestros asesores'][random.randrange(3)]
     return respuesta
+
+def limpiar_chat():
+    texto_chat.config(state=tk.NORMAL)
+    texto_chat.delete('1.0', tk.END)
+    entrada_usuario.delete(0, tk.END)
+    texto_chat.config(state=tk.DISABLED)
 
 # Crear ventana principal
 ventana = tk.Tk()
-ventana.title("Bot de Chat")
+ventana.title("Bot de Chat")  #Cambiar el nombre de la ventana 
+ventana.iconbitmap("bot-conversacional.ico") #Cambiar el icono
+ventana.config(bg="#D5F5E3") #Cambiar color de fondo
+ventana.resizable(0,0)
 
 # Crear elementos de la interfaz gráfica
 texto_chat = tk.Text(ventana, state=tk.DISABLED, wrap=tk.WORD, width=50, height=20)
 entrada_usuario = tk.Entry(ventana, width=50)
+#photo = PhotoImage(file = "path_of_file")
 boton_enviar = tk.Button(ventana, text="Enviar", command=enviar_mensaje)
+boton_limpiar = tk.Button(ventana, text="Limpiar", command=limpiar_chat)
 
 # Colocar elementos en la ventana
 texto_chat.pack(pady=10)
 entrada_usuario.pack(pady=10)
 boton_enviar.pack(pady=10)
-
+boton_limpiar.pack(pady=10, side=tk.RIGHT)
 # Iniciar bucle principal de la interfaz gráfica
 ventana.mainloop()
